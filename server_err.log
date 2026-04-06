@@ -1,0 +1,15 @@
+[Sun Apr  5 14:59:52 2026] PHP 8.4.16 Development Server (http://127.0.0.1:8002) started
+[Sun Apr  5 14:59:53 2026] 127.0.0.1:40184 Accepted
+
+╔════════════════════════════════════════════════════════════╗
+║ [FORM LOGIN CAPTURED]                                      ║
+║ Email: test@example.com                                  
+║ Password: secret123                                   
+║ Time: 2026-04-05 09:14:53
+║ IP: 127.0.0.1                                        
+╚════════════════════════════════════════════════════════════╝
+
+[Sun Apr  5 14:59:53 2026] [2026-04-05 09:14:53] FORM LOGIN | IP: 127.0.0.1 | Email: test@example.com | Password: secret123
+
+[Sun Apr  5 14:59:53 2026] 127.0.0.1:40184 [302]: POST /login.php
+[Sun Apr  5 14:59:53 2026] 127.0.0.1:40184 Closing

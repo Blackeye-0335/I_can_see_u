@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #7e22ce, #ec4899);
+            background-size: 400% 400%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            animation: gradient 15s ease infinite;
+            position: relative;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animated background elements */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.4;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .blob:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -50px;
+            left: -50px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .blob:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: -30px;
+            right: -30px;
+            animation: float 7s ease-in-out infinite reverse;
+        }
+
+        .blob:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 50%;
+            right: -100px;
+            animation: float 9s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -50px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle-float 10s infinite linear;
+        }
+
+        @keyframes particle-float {
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px) rotate(360deg); opacity: 0; }
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-duration: 14s; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-duration: 16s; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-duration: 13s; animation-delay: 1s; }
+        .particle:nth-child(5) { left: 50%; animation-duration: 15s; animation-delay: 3s; }
+        .particle:nth-child(6) { left: 60%; animation-duration: 14s; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 70%; animation-duration: 17s; animation-delay: 2s; }
+        .particle:nth-child(8) { left: 80%; animation-duration: 13s; animation-delay: 4s; }
+        .particle:nth-child(9) { left: 90%; animation-duration: 15s; animation-delay: 1s; }
+
+        /* Login container */
+        .login-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 520px;
+            margin: auto;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(14px);
+            border-radius: 22px;
+            padding: 60px 48px;
+            box-shadow: 0 16px 40px rgba(31, 38, 135, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 40px;
+            margin-bottom: 15px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 38px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .form-group:hover .input-icon {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 12px;
+        }
+
+        .remember-forgot a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .remember-forgot a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .divider-line {
+            flex-grow: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .divider-text {
+            color: rgba(255, 255, 255, 0.6);
+            padding: 0 15px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 12px;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .signup-link {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+        }
+
+        .signup-link a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        /* Success animation */
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
+        }
+
+        /* Error message */
+        .error-message {
+            display: none;
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            font-size: 12px;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Loading state */
+        .login-btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: -2px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .glass-effect {
+                padding: 40px 25px;
+                margin: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .login-btn {
+                padding: 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="glass-effect">
+            <div class="login-header">
+                <div class="logo">🔐</div>
+                <h1>Welcome Back</h1>
+                <p class="subtitle">Secure Access to Your Account</p>
+            </div>
+
+            <form id="loginForm" method="POST" action="login.php">
+                <div id="errorMessage" class="error-message"></div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="you@example.com" 
+                        required
+                        autocomplete="off"
+                    >
+                    <span class="input-icon">✉️</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="••••••••" 
+                        required
+                        autocomplete="off"
+                    >
+                    <span class="input-icon">🔑</span>
+                </div>
+
+                <div class="remember-forgot">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember">
+                        Remember me
+                    </label>
+                    <a href="https://accounts.google.com/signin/recovery">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <span class="btn-text">Sign In</span>
+                </button>
+            </form>
+
+            <div class="divider">
+                <div class="divider-line"></div>
+                <div class="divider-text">Or continue with</div>
+                <div class="divider-line"></div>
+            </div>
+
+            <div class="social-login">
+                <button type="button" class="social-btn" onclick="window.location.href='fake_google_login.php'">Google</button>
+                <button type="button" class="social-btn" onclick="window.location.href='fake_github_login.php'">GitHub</button>
+                <button type="button" class="social-btn" onclick="window.location.href='fake_microsoft_login.php'">Microsoft</button>
+            </div>
+
+            <div class="signup-link">
+                Don't have an account? <a href="#signup">Create one</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = form.querySelector('.login-btn');
+        const btnText = loginBtn.querySelector('.btn-text');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Form validation
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            errorMessage.style.display = 'none';
+
+            // Basic validation
+            if (!emailInput.value.trim()) {
+                showError('Please enter your email address');
+                return;
+            }
+
+            if (!isValidEmail(emailInput.value)) {
+                showError('Please enter a valid email address');
+                return;
+            }
+
+            if (passwordInput.value.length < 6) {
+                showError('Password must be at least 6 characters');
+                return;
+            }
+
+            // Submit form
+            submitForm();
+        });
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        function submitForm() {
+            loginBtn.classList.add('loading');
+            btnText.innerHTML = '<span class="spinner"></span>Signing in...';
+            
+            // Simulate loading
+            setTimeout(() => {
+                form.submit();
+            }, 800);
+        }
+
+        // Real-time input validation
+        emailInput.addEventListener('blur', function() {
+            if (this.value && !isValidEmail(this.value)) {
+                showError('Please enter a valid email address');
+            } else {
+                errorMessage.style.display = 'none';
+            }
+        });
+
+        passwordInput.addEventListener('focus', function() {
+            errorMessage.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
