@@ -205,6 +205,9 @@ $message = null;
 $msgType = null;
 $debugInfo = null;
 $guestRedirect = false;
+
+// Temporary stored hash for credential verification
+$stored_hash = password_hash('Password123!', PASSWORD_DEFAULT);
  
 if (isset($_GET['guest'])) {
     $randomId = rand(1000, 9999);
