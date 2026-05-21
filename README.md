@@ -19,7 +19,7 @@ No special dependencies are required other than PHP.
 2. Change into the project directory:
 
 ```bash
-cd /home/blackeye/passwordcapture
+cd /home/user/passwordcapture
 ```
 
 ## Run locally with PHP built-in server
@@ -55,3 +55,6 @@ https://xxxxx.ngrok-free.dev/fake_microsoft_login.php
 - Do not commit `captured.log` to git.
 - The file is already ignored by `.gitignore`.
 - If you need to remove sensitive data from the repo, use history rewrite tools carefully.
+warning:
+ creator is not responsible for any cused using this code and tools user is self responsible for it.
+  made for only educational purpose only.
