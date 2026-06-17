@@ -171,6 +171,21 @@ require_once 'utils.php';
             .grid {
                 grid-template-columns: 1fr;
             }
+            .card {
+                padding: 20px;
+            }
+            .card-icon {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .header p {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
