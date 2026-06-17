@@ -288,6 +288,15 @@ $entries = isAdmin() ? getLogEntries(50) : null;
             color: #00d4ff;
             font-weight: bold;
         }
+
+        .session-info {
+            background: #0f0f1e;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #b0b0b0;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
