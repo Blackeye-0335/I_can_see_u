@@ -160,6 +160,16 @@ function verifyAdminPassword($password) {
 }
 
 /**
+ * Get session duration in minutes
+ */
+function getSessionDuration() {
+    if (!isset($_SESSION['admin_login_time'])) {
+        return 0;
+    }
+    return round((time() - $_SESSION['admin_login_time']) / 60);
+}
+
+/**
  * Export logs as CSV
  */
 function exportToCSV() {
