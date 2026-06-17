@@ -18,6 +18,9 @@ define('PLATFORMS', [
     'microsoft' => ['name' => 'Microsoft', 'icon' => '💻'],
     'linkedin' => ['name' => 'LinkedIn', 'icon' => '💼'],
     'twitter' => ['name' => 'Twitter/X', 'icon' => '𝕏'],
+    'facebook' => ['name' => 'Facebook', 'icon' => '📘'],
+    'amazon' => ['name' => 'Amazon', 'icon' => '📦'],
+    'apple' => ['name' => 'Apple', 'icon' => '🍎'],
 ]);
 
 // Session Configuration
