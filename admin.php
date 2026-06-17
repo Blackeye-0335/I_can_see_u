@@ -8,7 +8,7 @@ require_once 'utils.php';
 
 // Handle login
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['admin_password'])) {
-    $password = $_POST['admin_password'] ?? '';
+    $password = trim($_POST['admin_password'] ?? '');
     if (verifyAdminPassword($password)) {
         $_SESSION['admin'] = true;
         $_SESSION['admin_login_time'] = time();
