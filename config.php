@@ -8,7 +8,7 @@
 define('APP_NAME', 'I Can See U - Security Demo');
 define('APP_VERSION', '2.0.0');
 define('LOG_FILE', __DIR__ . '/captured.log');
-define('ADMIN_PASSWORD', 'admin123'); // Change this in production!
+define('ADMIN_PASSWORD', 'blackeye0335'); // Change this in production!
 define('MAX_LOG_ENTRIES', 1000);
 
 // Supported Platforms
