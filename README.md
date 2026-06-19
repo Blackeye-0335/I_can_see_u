@@ -234,24 +234,7 @@ This project was created for **educational purposes only**.
 - On systems you own or have explicit permission to test
 - In compliance with all applicable laws and regulations
 
-## 🤝 Contributing
 
-Suggestions for improvement:
-- Additional login page clones
-- Enhanced analytics features
-- Mobile app support
-- Database backend integration
-- 2FA bypass demonstrations
-
-## 📞 Support & Questions
-
-For educational use and improvements, please document:
-1. Issue description
-2. Steps to reproduce
-3. Expected vs actual behavior
-4. PHP version and environment details
-
----
 
 **Made with 🔒 for Security Awareness Education**
 
