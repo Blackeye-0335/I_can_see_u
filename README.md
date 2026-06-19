@@ -10,9 +10,9 @@
 
 "I Can See U" is an advanced security awareness platform that demonstrates modern phishing techniques and authentication vulnerabilities. It features realistic fake login pages for major platforms and provides real-time credential capture monitoring with detailed analytics.
 
-## 🆕 What's New in v2.0
+## What's New in v2.0
 
-### ✨ New Features
+###  New Features
 - **Admin Dashboard** - Real-time monitoring of captured credentials
 - **5 Fake Login Platforms** - GitHub, Google, Microsoft, LinkedIn, Twitter/X
 - **Enhanced Analytics** - Statistics by platform, device type, and IP address
@@ -21,7 +21,7 @@
 - **Security Hardening** - Input sanitization, CSRF protection, session security
 - **Responsive Design** - Mobile-friendly interfaces across all pages
 
-### 🎯 Key Improvements
+### Key Improvements
 - **Code Organization** - Centralized configuration and utility functions
 - **Reusable Utilities** - DRY principle applied to logging and validation
 - **Better Error Handling** - Improved robustness and error messages
